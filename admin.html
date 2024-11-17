@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* Stilizare generală */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Bara laterală */
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            align-items: center;
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .sidebar button.active {
+            background-color: #555;
+        }
+
+        .container {
+            flex: 1;
+            display: none;
+            padding: 20px;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* Stilizare pentru form */
+        .filter-form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-form select, .filter-form button {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Stilizare pentru tabel */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Stilizare pentru selectarea datei */
+        .date-picker {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .date-picker input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Stilizare pentru gestionare săli */
+        .room-management {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .room-management input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 18px);
+        }
+
+        .room-management button {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            width: 100px;
+            margin: 5px 0;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bara laterală -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <button id="reservationsBtn" class="active" onclick="switchTab('reservations')">Rezervări</button>
+        <button id="manageRoomsBtn" onclick="switchTab('manageRooms')">Gestionare Săli</button>
+    </div>
+
+    <!-- Secțiunea Rezervări -->
+    <div id="reservations" class="container active">
+        <h1>Rezervări</h1>
+
+        <!-- Formularul de filtrare -->
+        <div class="filter-form">
+            <select id="floorSelect">
+                <option value="1">Etaj 1</option>
+                <option value="2">Etaj 2</option>
+                <option value="3">Etaj 3</option>
+            </select>
+            <select id="roomSelect">
+                <option value="sala1">Sala 1</option>
+                <option value="sala2">Sala 2</option>
+                <option value="sala3">Sala 3</option>
+            </select>
+            <button onclick="searchReservations()">Căutare</button>
+        </div>
+
+        <!-- Selectorul de dată -->
+        <div class="date-picker">
+            <input type="date" id="reservationDate" value="2023-01-01" onchange="updateDate()">
+        </div>
+
+        <!-- Tabelul de rezervări -->
+        <table id="reservationTable">
+            <thead>
+                <tr>
+                    <th>Oră</th>
+                    <th>Rezervare</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Orele disponibile -->
+                <tr>
+                    <td>8:00</td>
+                    <td id="time-8">-</td>
+                </tr>
+                <tr>
+                    <td>9:40</td>
+                    <td id="time-9">-</td>
+                </tr>
+                <tr>
+                    <td>11:20</td>
+                    <td id="time-11">-</td>
+                </tr>
+                <tr>
+                    <td>13:00</td>
+                    <td id="time-13">-</td>
+                </tr>
+                <tr>
+                    <td>14:40</td>
+                    <td id="time-14">-</td>
+                </tr>
+                <tr>
+                    <td>16:20</td>
+                    <td id="time-16">-</td>
+                </tr>
+                <tr>
+                    <td>18:00</td>
+                    <td id="time-18">-</td>
+                </tr>
+                <tr>
+                    <td>19:40</td>
+                    <td id="time-19">-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Secțiunea Gestionare Săli -->
+    <div id="manageRooms" class="container">
+        <h1>Gestionare Săli</h1>
+        <div class="room-management">
+            <input type="text" id="roomName" placeholder="Nume Sala">
+            <input type="number" id="roomFloor" placeholder="Etaj">
+            <input type="number" id="roomCapacity" placeholder="Capacitate">
+            <input type="text" id="roomType" placeholder="Tip">
+            <button class="btn-add" onclick="addRoom()">Adaugă Sala</button>
+            <button class="btn-delete" onclick="deleteRoom()">Șterge Sala</button>
+        </div>
+    </div>
+
+    <script>
+        // Date exemplu pentru rezervări
+        const sampleReservations = {
+            '2023-01-01': {
+                '1': {
+                    'sala1': {
+                        '8:00': 'email1@example.com',
+                        '11:20': 'email2@example.com'
+                    }
+                }
+            }
+        };
+
+        // Funcție pentru comutarea între tab-uri
+        function switchTab(tab) {
+            document.querySelectorAll('.container').forEach(container => container.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+
+            // Schimbă butonul activ în sidebar
+            document.querySelectorAll('.sidebar button').forEach(button => button.classList.remove('active'));
+            document.getElementById(tab + 'Btn').classList.add('active');
+        }
+
+        // Funcții pentru Rezervări
+        function updateTable(reservations) {
+            const times = ['8', '9', '11', '13', '14', '16', '18', '19'];
+            times.forEach(time => {
+                document.getElementById(`time-${time}`).innerText = '-';
+            });
+            Object.keys(reservations).forEach(time => {
+                const elementId = `time-${time.split(':')[0]}`;
+                if (document.getElementById(elementId)) {
+                    document.getElementById(elementId).innerText = reservations[time];
+                }
+            });
+        }
+
+        function searchReservations() {
+            const selectedDate = document.getElementById("reservationDate").value;
+            const selectedFloor = document.getElementById("floorSelect").value;
+            const selectedRoom = document.getElementById("roomSelect").value;
+
+            const reservationsForDate = sampleReservations[selectedDate];
+            if (reservationsForDate && reservationsForDate[selectedFloor] && reservationsForDate[selectedFloor][selectedRoom]) {
+                updateTable(reservationsForDate[selectedFloor][selectedRoom]);
+            } else {
+                updateTable({});
+            }
+        }
+
+        function updateDate() {
+            searchReservations();
+        }
+
+        // Funcții pentru Gestionare Săli
+        function addRoom() {
+            const name = document.getElementById('roomName').value;
+            const floor = document.getElementById('roomFloor').value;
+            const capacity = document.getElementById('roomCapacity').value;
+            const type = document.getElementById('roomType').value;
+            alert(`Sală adăugată: ${name} la etajul ${floor}, capacitate: ${capacity}, tip: ${type}`);
+            // Resetează câmpurile după adăugare
+            document.getElementById('roomName').value = '';
+            document.getElementById('roomFloor').value = '';
+            document.getElementById('roomCapacity').value = '';
+            document.getElementById('roomType').value = '';
+        }
+
+        function deleteRoom() {
+            const name = document.getElementById('roomName').value;
+            alert(`Sală ștearsă: ${name}`);
+            document.getElementById('roomName').value = '';
+        }
+
+        // Inițializare tabel rezervări
+        document.addEventListener("DOMContentLoaded", function() {
+            searchReservations();
+        });
+    </script>
+</body>
+</html>

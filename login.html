@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectare e-UVT</title>
+    <style>
+        /* Stiluri de bază */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4c6ef5, #72aef2);
+            color: #333;
+        }
+
+        /* Containerul principal de login */
+        .login-container {
+            width: 400px;
+            background-color: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Logo-ul */
+        .logo {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            transform: rotate(-20deg);
+            opacity: 0.1;
+        }
+
+        /* Textul de conectare */
+        .login-container h2 {
+            font-size: 22px;
+            color: #4c6ef5;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Subtitlu */
+        .login-container p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* Stilurile inputurilor */
+        .login-container input[type="email"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: border 0.3s;
+        }
+
+        .login-container input[type="email"]:focus,
+        .login-container input[type="password"]:focus {
+            border-color: #4c6ef5;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 110, 245, 0.2);
+        }
+
+        /* Stilul placeholder-ului */
+        ::placeholder {
+            color: #aaa;
+        }
+
+        /* Stilul butonului de login */
+        .login-container button {
+            width: 100%;
+            background-color: #4c6ef5;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #3a57c4;
+        }
+
+        /* Link pentru recuperarea parolei */
+        .forgot-password {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4c6ef5;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #3a57c4;
+        }
+
+        /* Footer mic */
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #bbb;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Logo-ul semi-transparent în fundal -->
+    <img src="image.jpeg" alt="Universitatea de Vest din Timișoara Logo" class="logo">
+
+    <!-- Containerul de login -->
+    <div class="login-container">
+        <h2>Conectează-te cu contul tău e-UVT</h2>
+        <p>Accesează platforma UVT folosind datele tale de autentificare.</p>
+        
+        <!-- Câmpul de email -->
+        <input type="email" placeholder="exemplu@e-uvt.ro" required>
+        
+        <!-- Câmpul de parolă -->
+        <input type="password" placeholder="Parola" required>
+        
+        <!-- Butonul de login -->
+        <button>Log in</button>
+
+        <!-- Link pentru parola uitată -->
+        <a href="#" class="forgot-password">Ai uitat parola?</a>
+
+        <!-- Footer mic -->
+        <div class="footer">
+            © 2023 Universitatea de Vest din Timișoara
+        </div>
+    </div>
+
+</body>
+</html>
